@@ -30,6 +30,7 @@ export default function MapPage() {
       }).addTo(map);
 
       const { data, error } = await supabase.from('view_mapa_potrosaca').select('*');
+      console.log("Podaci iz baze:", data);
 
       if (error) {
         console.error("Greška pri dohvatanju:", error);

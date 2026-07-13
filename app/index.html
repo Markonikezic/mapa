@@ -23,11 +23,12 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
     <script>
-        // 1. Postavi svoje ključeve ovdje
-        const SUPABASE_URL = https://zfcrrnusmhmcwiwqfzlz.supabase.co;
-        const SUPABASE_KEY = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpmY3JybnVzbWhtY3dpd3Fmemx6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE5NzkzNTAsImV4cCI6MjA5NzU1NTM1MH0.lyL0dz4B8mNrqoo4BTyVt4BkV6NQP6WFDAQPCvYsB8k;
+       // 1. Ispravljeni ključevi sa navodnicima i čistim URL-om
+const SUPABASE_URL = 'https://zfcrrnusmhmcwiwqfzlz.supabase.co'; 
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpmY3JybnVzbWhtY3dpd3Fmemx6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE5NzkzNTAsImV4cCI6MjA5NzU1NTM1MH0.lyL0dz4B8mNrqoo4BTyVt4BkV6NQP6WFDAQPCvYsB8k';
 
-        const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+// 2. Inicijalizacija
+const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
         // 2. Inicijalizuj mapu
         const map = L.map('map').setView([42.5535, 19.1098], 14);

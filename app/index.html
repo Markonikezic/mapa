@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mapa Potrošača</title>
+    
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    
+    <style>
+        #map { height: 100vh; width: 100%; }
+        body { margin: 0; padding: 0; }
+    </style>
+</head>
+<body>
+
+    <div id="map"></div>
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <!-- Supabase JS -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <script>
+        // 1. Postavi svoje ključeve ovdje
+        const SUPABASE_URL = https://zfcrrnusmhmcwiwqfzlz.supabase.co;
+        const SUPABASE_KEY = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpmY3JybnVzbWhtY3dpd3Fmemx6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE5NzkzNTAsImV4cCI6MjA5NzU1NTM1MH0.lyL0dz4B8mNrqoo4BTyVt4BkV6NQP6WFDAQPCvYsB8k;
+
+        const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+        // 2. Inicijalizuj mapu
+        const map = L.map('map').setView([42.5535, 19.1098], 14);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap'
+        }).addTo(map);
+
+        // 3. Dohvati podatke i dodaj markere
+        async function ucitanjePodataka() {
+            const { data, error } = await supabase
+                .from('view_mapa_potrosaca')
+                .select('*');
+
+            if (error) {
+                console.error("Greška:", error);
+                return;
+            }
+
+            console.log("Podaci:", data); // Ovo ćeš vidjeti u F12 konzoli
+
+            data.forEach(p => {
+                if (p.lat && p.lon) {
+                    L.marker([p.lat, p.lon])
+                        .addTo(map)
+                        .bindPopup(`<b>${p.ime}</b><br>Potrošnja: ${p['259'] || 0} kWh`);
+                } else {
+                    console.warn("Potrosac bez koordinata:", p);
+                }
+            });
+        }
+
+        ucitanjePodataka();
+    </script>
+</body>
+</html>

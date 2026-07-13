@@ -1,0 +1,10 @@
+JSON
+{
+  "dependencies": {
+    "next": "latest",
+    "react": "latest",
+    "react-dom": "latest",
+    "@supabase/supabase-js": "latest",
+    "leaflet": "^1.9.4"
+  }
+}

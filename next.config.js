@@ -1,8 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'standalone', // Ovo pomaže Vercelu da bolje rukuje server komponentama
-  eslint: {
-    ignoreDuringBuilds: true, // Ovo ubrzava build i eliminiše sitne greške pri check-u
+  output: 'export', // Ovo ISKLJUČUJE server i forsira statički export
+  images: {
+    unoptimized: true, // Ovo rešava probleme sa slikama tokom build-a
   },
 }
 

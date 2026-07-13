@@ -35,6 +35,7 @@ export default function MapPage() {
         console.error("Greška pri dohvatanju:", error);
       } else {
         data.forEach((potrosac) => {
+          console.log("Pozicija:", potrosac.lat, potrosac.lon);
           if (potrosac.lat && potrosac.lon) {
             L.marker([potrosac.lat, potrosac.lon])
               .addTo(map)

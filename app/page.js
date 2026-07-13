@@ -1,5 +1,4 @@
 'use client';
-export const dynamic = 'force-client'; 
 
 import { useState, useEffect } from 'react';
 // Ovde menjamo ime iz 'dynamic' u 'dynamicImport'

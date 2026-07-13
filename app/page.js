@@ -1,5 +1,3 @@
-
-JavaScript
 'use client'; // Ovo je obavezno za Next.js komponente koje koriste browser funkcije
 
 import { useEffect, useState } from 'react';

@@ -1,8 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'export', // Ovo ISKLJUČUJE server i forsira statički export
+  output: 'export', // Ovo je ono što Next.js traži umesto 'next export' komande
   images: {
-    unoptimized: true, // Ovo rešava probleme sa slikama tokom build-a
+    unoptimized: true,
   },
 }
 

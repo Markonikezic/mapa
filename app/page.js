@@ -1,11 +1,13 @@
 'use client';
-export const dynamic = 'force-client';
+export const dynamic = 'force-client'; 
+
 import { useState, useEffect } from 'react';
-import dynamic from 'next/dynamic';
+// Ovde menjamo ime iz 'dynamic' u 'dynamicImport'
+import dynamicImport from 'next/dynamic'; 
 import { createClient } from '@supabase/supabase-js';
 
-// Dinamički import mape da se ne bi učitavala tokom build-a na serveru
-const Map = dynamic(() => import('./components/Map'), { 
+// Sada koristimo to novo ime ovde:
+const Map = dynamicImport(() => import('./components/Map'), { 
   ssr: false,
   loading: () => <div className="h-full w-full flex items-center justify-center">Učitavanje mape...</div>
 });

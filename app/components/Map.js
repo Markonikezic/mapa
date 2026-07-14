@@ -1,40 +1,65 @@
 'use client';
-import L from 'leaflet';
-import { MapContainer, TileLayer, CircleMarker, Popup } from 'react-leaflet';
-import 'leaflet/dist/leaflet.css';
-import icon from 'leaflet/dist/images/marker-icon.png';
-import iconShadow from 'leaflet/dist/images/marker-shadow.png';
 
-let DefaultIcon = L.icon({
-    iconUrl: icon.src,
-    shadowUrl: iconShadow.src,
-    iconSize: [25, 41],
-    iconAnchor: [12, 41]
-});
+import { useEffect, useRef } from 'react';
+import maplibregl from 'maplibre-gl';
+import 'maplibre-gl/dist/maplibre-gl.css';
 
-L.Marker.prototype.options.icon = DefaultIcon;
+export default function Map({ tsData }) {
+  const mapContainer = useRef(null);
+  const mapInstance = useRef(null);
 
-export default function Map({ tsData, onSelectTs }) {
-  return (
-    <MapContainer center={[42.44, 19.25]} zoom={12} className="h-full w-full">
-      <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-      
-      {tsData && tsData.map((ts) => {
-        if (!ts.lat || !ts.lng) return null;
+  useEffect(() => {
+    // Sprečava inicijalizaciju više mapa ako se komponenta re-renderuje
+    if (mapInstance.current) return;
 
-        return (
-          <CircleMarker 
-            key={ts.id} 
-            center={[ts.lat, ts.lng]} 
-            radius={5}
-            eventHandlers={{
-              click: () => onSelectTs && onSelectTs(ts),
-            }}
-          >
-            <Popup>{ts.naziv_ts}</Popup>
-          </CircleMarker>
-        );
-      })}
-    </MapContainer>
-  );
+    mapInstance.current = new maplibregl.Map({
+      container: mapContainer.current,
+      // Ovo je prelepa "Dark Matter" tamna mapa
+      style: 'https://tiles.basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json',
+      center: [19.25, 42.44], // Podgorica
+      zoom: 12
+    });
+
+    mapInstance.current.on('load', () => {
+      // Dodajemo podatke kao izvor
+      mapInstance.current.addSource('trafo-stanice', {
+        type: 'geojson',
+        data: {
+          type: 'FeatureCollection',
+          features: tsData.map(ts => ({
+            type: 'Feature',
+            geometry: { 
+              type: 'Point', 
+              coordinates: [parseFloat(ts.lng), parseFloat(ts.lat)] 
+            },
+            properties: { name: ts.naziv_ts }
+          }))
+        }
+      });
+
+      // Dodajemo sloj sa crvenim krugovima
+      mapInstance.current.addLayer({
+        id: 'ts-layer',
+        type: 'circle',
+        source: 'trafo-stanice',
+        paint: {
+          'circle-radius': 7,
+          'circle-color': '#FF3333', // Crvena boja za trafostanice
+          'circle-opacity': 0.8,
+          'circle-stroke-width': 2,
+          'circle-stroke-color': '#FFFFFF' // Bela ivica kruga
+        }
+      });
+    });
+
+    // Cleanup funkcija
+    return () => {
+      if (mapInstance.current) {
+        mapInstance.current.remove();
+        mapInstance.current = null;
+      }
+    };
+  }, [tsData]);
+
+  return <div ref={mapContainer} className="h-screen w-full" />;
 }

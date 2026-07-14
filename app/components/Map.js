@@ -17,9 +17,8 @@ export default function Map({ tsData, onSelectTs }) {
     <MapContainer center={[42.44, 19.25]} zoom={12} className="h-full w-full">
       <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
       tsData && tsData.map((ts) => {
-  // OVO JE KLJUČNO: Proveri da li postoje koordinate
-  if (!ts.lat || !ts.lng) return null;
-    return (
+      if (!ts.lat || !ts.lng) return null;
+      return (
         <CircleMarker 
           key={ts.id} 
           center={[ts.latitude, ts.longitude]} 

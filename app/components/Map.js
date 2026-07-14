@@ -16,11 +16,14 @@ export default function Map({ tsData, onSelectTs }) {
   return (
     <MapContainer center={[42.44, 19.25]} zoom={12} className="h-full w-full">
       <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-      {tsData.map(ts => (
+      tsData && tsData.map((ts) => {
+  // OVO JE KLJUČNO: Proveri da li postoje koordinate
+  if (!ts.lat || !ts.lng) return null;
+    return (
         <CircleMarker 
           key={ts.id} 
           center={[ts.latitude, ts.longitude]} 
-          radius={8}
+          radius={5}
           fillColor={getColor(ts.gubitak || 0)}
           color="white"
           weight={2}

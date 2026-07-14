@@ -16,7 +16,7 @@ export default function Map({ tsData, onSelectTs }) {
   return (
     <MapContainer center={[42.44, 19.25]} zoom={12} className="h-full w-full">
       <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-      tsData && tsData.map((ts) => {
+      {tsData && tsData.map((ts) => {
       if (!ts.lat || !ts.lng) return null;
       return (
         <CircleMarker 

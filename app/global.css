@@ -1,8 +1,0 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-body { background-color: #020617; color: #f8fafc; }
-.leaflet-container { z-index: 1; height: 100vh; }
-/* Tamni filter za mapu */
-.leaflet-tile { filter: invert(1) hue-rotate(180deg) brightness(0.8) contrast(1.2); }
